@@ -5,42 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.15.4/video.js"></script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f2f2f2;
+            background-color: #3498db; /* Set a background color */
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
+            border: 10px solid #2c3e50; /* Add a border around the full page */
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50; /* Header background color */
+            color: #ecf0f1; /* Header text color */
+            font-size: 24px;
+            border-bottom: 2px solid #3498db; /* Border between header and content */
+            width: 100%; /* Full width */
         }
 
         #mergedVideo {
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Make the video player responsive */
+        }
+
+        .container {
+            max-width: 800px; /* Set a maximum width for the content */
+            width: 90%; /* Set a width for the content */
+            background-color: white; /* Set a background color for the content */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
     </style>
     <title>Merged Video Playback</title>
 </head>
 <body>
 
-<video id="mergedVideo" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
-    <source src="file1.mp4" type="video/mp4" />
-    <source src="file2.mp4" type="video/mp4" />
-</video>
+<header>
+    <h1>Video.js Task</h1>
+</header>
+
+<div class="container">
+    <video id="mergedVideo" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
+        <source src="file1.mp4" type="video/mp4" />
+        <source src="file2.mp4" type="video/mp4" />
+    </video>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var player = videojs('mergedVideo');
 
-        // Function to switch to the next video
         function switchToNextVideo() {
-            // Determine the current video source
             var currentSource = player.currentSource();
-
-            // Switch to the other video file
             var nextSource = currentSource.src.includes('file1') ? 'file2.mp4' : 'file1.mp4';
 
             player.src({
@@ -48,15 +72,11 @@
                 src: nextSource
             });
 
-            // Load and play the next video
             player.load();
             player.play();
         }
 
-        // Listen for the 'ended' event to switch to the next video
         player.on('ended', switchToNextVideo);
-
-        // Autoplay the first video
         player.play();
     });
 </script>
