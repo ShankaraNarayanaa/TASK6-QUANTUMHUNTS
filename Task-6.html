@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.15.4/video.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #mergedVideo {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <title>Merged Video Playback</title>
+</head>
+<body>
+
+<video id="mergedVideo" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
+    <source src="file1.mp4" type="video/mp4" />
+    <source src="file2.mp4" type="video/mp4" />
+</video>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var player = videojs('mergedVideo');
+
+        // Function to switch to the next video
+        function switchToNextVideo() {
+            // Determine the current video source
+            var currentSource = player.currentSource();
+
+            // Switch to the other video file
+            var nextSource = currentSource.src.includes('file1') ? 'file2.mp4' : 'file1.mp4';
+
+            player.src({
+                type: 'video/mp4',
+                src: nextSource
+            });
+
+            // Load and play the next video
+            player.load();
+            player.play();
+        }
+
+        // Listen for the 'ended' event to switch to the next video
+        player.on('ended', switchToNextVideo);
+
+        // Autoplay the first video
+        player.play();
+    });
+</script>
+
+</body>
+</html>
